@@ -6,4 +6,7 @@ steps:
   - name: test
     image: rust:1.47.0
     commands:
-      - cargo --version
+      - rustup component add rustfmt clippy
+      - rustc --version
+      - cargo clippy --version
+      - cargo fmt --version
