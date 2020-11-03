@@ -13,3 +13,4 @@ steps:
       - cargo fmt -- --check
       - cargo clippy -- -D warnings
       - cargo check --workspace
+      - cargo test --workspace
