@@ -1,4 +1,5 @@
 pub mod baggage;
+pub mod tracing;
 
 // #[cfg(test)]
 // mod tests {
