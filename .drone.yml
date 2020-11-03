@@ -10,3 +10,6 @@ steps:
       - rustc --version
       - cargo clippy --version
       - cargo fmt --version
+      - cargo fmt -- --check
+      - cargo clippy -- -D warnings
+      - cargo check --workspace
