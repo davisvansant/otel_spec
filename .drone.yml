@@ -5,6 +5,8 @@ name: default
 steps:
   - name: test
     image: rust:1.47.0
+    environment:
+      RUST_BACKTRACE: 1
     commands:
       - rustup component add rustfmt clippy
       - rustc --version
