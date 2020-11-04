@@ -161,4 +161,32 @@ mod tests {
         assert_ne!(span.status.status_code, StatusCode::Ok);
         assert_eq!(span.status.status_code, StatusCode::Error);
     }
+
+    #[test]
+    fn update_name() {
+        let mut span = Span::create(
+            String::from("test_span"),
+            ParentSpan::Span,
+            String::from("test_span_kind"),
+        );
+
+        assert_eq!(span.name, String::from("test_span"));
+        span.update_name(String::from("changed_span_name"));
+        assert_eq!(span.name, String::from("changed_span_name"));
+    }
+
+    #[test]
+    fn end() {
+        let mut span = Span::create(
+            String::from("test_span"),
+            ParentSpan::Span,
+            String::from("test_span_kind"),
+        );
+
+        assert!(span.stop_timestamp.is_none());
+        span.end();
+        assert!(span.stop_timestamp.is_some());
+        assert_ne!(span.stop_timestamp.unwrap(), SystemTime::now());
+        assert!(span.stop_timestamp.unwrap() > span.start_timestamp);
+    }
 }
