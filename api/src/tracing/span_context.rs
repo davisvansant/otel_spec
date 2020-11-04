@@ -4,8 +4,8 @@ use uuid::Uuid;
 mod trace_state;
 
 pub struct SpanContext {
-    trace_id: Uuid,
-    span_id: Uuid,
+    pub trace_id: Uuid,
+    pub span_id: Uuid,
     pub trace_flags: String,
     pub trace_state: TraceState,
 }
