@@ -35,3 +35,41 @@ impl Tracer {
         self.span.push(span)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn init() {
+        let tracer = Tracer::init();
+        assert!(tracer.span.is_empty());
+        assert_eq!(tracer.span.len(), 0);
+    }
+
+    #[test]
+    fn create() {
+        let mut tracer = Tracer::init();
+        tracer.create_tracer(
+            String::from("test_span_one"),
+            ParentSpan::Span,
+            String::from("test_span_kind"),
+        );
+        assert_eq!(tracer.span.is_empty(), false);
+        assert_eq!(tracer.span.len(), 1);
+
+        tracer.create_tracer(
+            String::from("test_span_two"),
+            ParentSpan::Span,
+            String::from("test_span_kind"),
+        );
+        assert_eq!(tracer.span.len(), 2);
+
+        tracer.create_tracer(
+            String::from("test_span_three"),
+            ParentSpan::Span,
+            String::from("test_span_kind"),
+        );
+        assert_eq!(tracer.span.len(), 3);
+    }
+}
