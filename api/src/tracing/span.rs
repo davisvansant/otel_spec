@@ -58,7 +58,11 @@ impl Span {
     }
 
     pub fn is_recording(&self) -> bool {
-        unimplemented!()
+        if self.stop_timestamp.is_none() {
+            true
+        } else {
+            false
+        }
     }
 
     pub fn set_attributes(&mut self) {
@@ -128,10 +132,18 @@ mod tests {
         assert!(context.trace_state.trace_state.is_empty());
     }
 
-    // #[test]
-    // fn is_recording() {
-    //     unimplemented!()
-    // }
+    #[test]
+    fn is_recording() {
+        let mut span = Span::create(
+            String::from("test_span"),
+            ParentSpan::Span,
+            // String::from("test_span_kind"),
+            None,
+        );
+        assert!(span.is_recording());
+        span.end();
+        assert_eq!(span.is_recording(), false);
+    }
 
     // #[test]
     // fn set_attributes() {
