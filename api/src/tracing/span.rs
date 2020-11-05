@@ -58,11 +58,7 @@ impl Span {
     }
 
     pub fn is_recording(&self) -> bool {
-        if self.stop_timestamp.is_none() {
-            true
-        } else {
-            false
-        }
+        self.stop_timestamp.is_none()
     }
 
     pub fn set_attributes(&mut self) {
