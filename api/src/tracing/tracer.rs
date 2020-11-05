@@ -1,8 +1,8 @@
+use crate::tracing::span::span_context::SpanContext;
 use crate::tracing::span::span_kind::SpanKind;
 use crate::tracing::span::status::Status;
 use crate::tracing::span::ParentSpan;
 use crate::tracing::span::Span;
-use crate::tracing::span_context::SpanContext;
 
 pub struct Tracer {
     pub span: Vec<Span>,

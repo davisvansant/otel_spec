@@ -1,5 +1,5 @@
 pub mod span;
-pub mod span_context;
+// pub mod span_context;
 pub mod tracer;
 pub mod tracer_provider;
 
