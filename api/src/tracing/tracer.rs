@@ -12,7 +12,9 @@ pub struct Tracer {
 impl Tracer {
     pub fn init() -> Tracer {
         // unimplemented!()
-        Tracer { trace: Vec::new() }
+        Tracer {
+            trace: Vec::with_capacity(10),
+        }
     }
 
     pub fn create_tracer(
