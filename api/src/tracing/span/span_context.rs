@@ -40,8 +40,8 @@ mod tests {
             span_context.span_id.get_version(),
             Some(uuid::Version::Random)
         );
-        assert_eq!(span_context.trace_flags.is_empty(), true);
-        assert_eq!(span_context.trace_state.trace_state.capacity(), 0);
+        assert!(span_context.trace_flags.is_empty());
+        assert!(span_context.trace_state.trace_state.is_empty());
     }
 
     #[test]

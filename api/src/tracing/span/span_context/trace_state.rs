@@ -7,7 +7,7 @@ pub struct TraceState {
 impl TraceState {
     pub fn create() -> Self {
         Self {
-            trace_state: HashMap::new(),
+            trace_state: HashMap::with_capacity(10),
         }
     }
 
