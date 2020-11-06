@@ -7,7 +7,7 @@ pub struct Baggage {
 impl Baggage {
     pub fn init() -> Self {
         Self {
-            baggage: HashMap::new(),
+            baggage: HashMap::with_capacity(10),
         }
     }
 
