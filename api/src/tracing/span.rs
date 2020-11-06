@@ -4,7 +4,7 @@ use crate::tracing::span::span_kind::SpanKind;
 use crate::tracing::span::status::{Status, StatusCode};
 use std::time::{Duration, SystemTime};
 
-mod events;
+pub(crate) mod events;
 pub mod span_context;
 pub mod span_kind;
 pub mod status;
@@ -24,25 +24,26 @@ pub struct Span {
     pub stop_timestamp: Option<SystemTime>,
     pub attributes: Vec<String>,
     pub link: Vec<String>,
-    events: Vec<Event>,
-    status: Status,
+    pub(crate) events: Vec<Event>,
+    pub status: Status,
 }
 
 impl Span {
-    pub(crate) fn create(
-        name: String,
+    pub(crate) fn create(// name: String,
         // span_context: SpanContext,
-        parent_span: ParentSpan,
-        span_kind: Option<SpanKind>,
+        // parent_span: ParentSpan,
+        // span_kind: Option<SpanKind>,
         // start_timestamp: u16,
         // stop_timestamp: u16,
         // status: Status,
     ) -> Span {
         Span {
-            name,
+            // name,
+            name: String::with_capacity(32),
             span_context: SpanContext::create(),
-            parent_span,
+            // parent_span,
             // span_kind,
+            parent_span: ParentSpan::Span,
             span_kind: SpanKind::Internal,
             start_timestamp: SystemTime::now(),
             stop_timestamp: None,
@@ -90,13 +91,14 @@ mod tests {
     #[test]
     fn create() {
         let span = Span::create(
-            String::from("test_span"),
-            ParentSpan::Span,
+            // String::from("test_span"),
+            // ParentSpan::Span,
             // String::from("test_span_kind"),
-            None,
+            // None,
         );
 
-        assert_eq!(span.name, String::from("test_span"));
+        // assert_eq!(span.name, String::from("test_span"));
+        assert!(span.name.is_empty());
         assert_eq!(span.span_context.trace_id.is_nil(), false);
         assert_eq!(span.span_context.span_id.is_nil(), false);
         assert_eq!(span.span_context.trace_flags.is_empty(), true);
@@ -115,10 +117,10 @@ mod tests {
     #[test]
     fn get_context() {
         let span = Span::create(
-            String::from("test_span"),
-            ParentSpan::Span,
+            // String::from("test_span"),
+            // ParentSpan::Span,
             // String::from("test_span_kind"),
-            None,
+            // None,
         );
 
         let context = span.get_context();
@@ -131,10 +133,10 @@ mod tests {
     #[test]
     fn is_recording() {
         let mut span = Span::create(
-            String::from("test_span"),
-            ParentSpan::Span,
+            // String::from("test_span"),
+            // ParentSpan::Span,
             // String::from("test_span_kind"),
-            None,
+            // None,
         );
         assert!(span.is_recording());
         span.end();
@@ -149,10 +151,10 @@ mod tests {
     #[test]
     fn add_event() {
         let mut span = Span::create(
-            String::from("test_span"),
-            ParentSpan::Span,
+            // String::from("test_span"),
+            // ParentSpan::Span,
             // String::from("test_span_kind"),
-            None,
+            // None,
         );
 
         assert_eq!(span.events.len(), 0);
@@ -163,10 +165,10 @@ mod tests {
     #[test]
     fn set_status() {
         let mut span = Span::create(
-            String::from("test_span"),
-            ParentSpan::Span,
+            // String::from("test_span"),
+            // ParentSpan::Span,
             // String::from("test_span_kind"),
-            None,
+            // None,
         );
 
         assert_eq!(span.status.status_code, StatusCode::Unset);
@@ -181,13 +183,14 @@ mod tests {
     #[test]
     fn update_name() {
         let mut span = Span::create(
-            String::from("test_span"),
-            ParentSpan::Span,
+            // String::from("test_span"),
+            // ParentSpan::Span,
             // String::from("test_span_kind"),
-            None,
+            // None,
         );
 
-        assert_eq!(span.name, String::from("test_span"));
+        // assert_eq!(span.name, String::from("test_span"));
+        assert!(span.name.is_empty());
         span.update_name(String::from("changed_span_name"));
         assert_eq!(span.name, String::from("changed_span_name"));
     }
@@ -195,10 +198,10 @@ mod tests {
     #[test]
     fn end() {
         let mut span = Span::create(
-            String::from("test_span"),
-            ParentSpan::Span,
+            // String::from("test_span"),
+            // ParentSpan::Span,
             // String::from("test_span_kind"),
-            None,
+            // None,
         );
 
         assert!(span.stop_timestamp.is_none());
