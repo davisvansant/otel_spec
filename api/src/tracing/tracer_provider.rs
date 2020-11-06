@@ -1,10 +1,10 @@
-use crate::tracing::span::Span;
+// use crate::tracing::span::Span;
 use crate::tracing::tracer::Tracer;
 
 pub struct TracerProvider {
-    name: &'static str,
-    version: &'static str,
-    tracer: Tracer,
+    pub name: &'static str,
+    pub version: &'static str,
+    pub tracer: Tracer,
 }
 
 impl TracerProvider {
@@ -16,7 +16,7 @@ impl TracerProvider {
         }
     }
 
-    fn get_tracer(&mut self) -> &mut Tracer {
+    pub fn get_tracer(&mut self) -> &mut Tracer {
         &mut self.tracer
     }
 }
@@ -37,7 +37,7 @@ mod tests {
     #[test]
     fn get_tracer() {
         let mut global = TracerProvider::default();
-        let mut tracer = global.get_tracer();
+        let tracer = global.get_tracer();
         assert!(tracer.trace.is_empty());
         assert_eq!(tracer.trace.len(), 0);
 

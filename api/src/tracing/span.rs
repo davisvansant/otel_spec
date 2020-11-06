@@ -2,7 +2,8 @@ use crate::tracing::span::events::Event;
 use crate::tracing::span::span_context::SpanContext;
 use crate::tracing::span::span_kind::SpanKind;
 use crate::tracing::span::status::{Status, StatusCode};
-use std::time::{Duration, SystemTime};
+// use std::time::{Duration, SystemTime};
+use crate::SystemTime;
 
 pub(crate) mod events;
 pub mod span_context;
