@@ -12,7 +12,7 @@ impl Event {
         Event {
             name,
             timestamp: SystemTime::now(),
-            attributes: Vec::new(),
+            attributes: Vec::with_capacity(10),
         }
     }
 }

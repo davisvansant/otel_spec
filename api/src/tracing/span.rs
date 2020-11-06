@@ -48,9 +48,9 @@ impl Span {
             span_kind: SpanKind::Internal,
             start_timestamp: SystemTime::now(),
             stop_timestamp: None,
-            attributes: Vec::new(),
-            link: Vec::new(),
-            events: Vec::new(),
+            attributes: Vec::with_capacity(10),
+            link: Vec::with_capacity(10),
+            events: Vec::with_capacity(10),
             status: Status::default(),
         }
     }
