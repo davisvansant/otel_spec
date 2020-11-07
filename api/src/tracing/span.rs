@@ -1,14 +1,19 @@
-use crate::tracing::span::events::Event;
-use crate::tracing::span::span_context::SpanContext;
-use crate::tracing::span::span_kind::SpanKind;
-use crate::tracing::span::status::{Status, StatusCode};
+use self::events::Event;
+use self::span_context::SpanContext;
+use self::span_kind::SpanKind;
+use self::status::{Status, StatusCode};
 // use std::time::{Duration, SystemTime};
 use crate::SystemTime;
 
-pub(crate) mod events;
-pub mod span_context;
-pub mod span_kind;
-pub mod status;
+// pub(crate) mod events;
+// pub mod span_context;
+// pub mod span_kind;
+// pub mod status;
+
+mod events;
+mod span_context;
+mod span_kind;
+mod status;
 
 #[derive(Debug, PartialEq, PartialOrd)]
 pub enum ParentSpan {
@@ -25,7 +30,7 @@ pub struct Span {
     pub stop_timestamp: Option<SystemTime>,
     pub attributes: Vec<String>,
     pub link: Vec<String>,
-    pub(crate) events: Vec<Event>,
+    pub events: Vec<Event>,
     pub status: Status,
 }
 
