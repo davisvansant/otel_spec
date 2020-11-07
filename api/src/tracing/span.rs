@@ -35,7 +35,7 @@ pub struct Span {
 }
 
 impl Span {
-    pub(crate) fn create(// name: String,
+    pub(crate) fn default(// name: String,
         // span_context: SpanContext,
         // parent_span: ParentSpan,
         // span_kind: Option<SpanKind>,
@@ -96,7 +96,7 @@ mod tests {
 
     #[test]
     fn create() {
-        let span = Span::create(
+        let span = Span::default(
             // String::from("test_span"),
             // ParentSpan::Span,
             // String::from("test_span_kind"),
@@ -122,7 +122,7 @@ mod tests {
 
     #[test]
     fn get_context() {
-        let span = Span::create(
+        let span = Span::default(
             // String::from("test_span"),
             // ParentSpan::Span,
             // String::from("test_span_kind"),
@@ -138,7 +138,7 @@ mod tests {
 
     #[test]
     fn is_recording() {
-        let mut span = Span::create(
+        let mut span = Span::default(
             // String::from("test_span"),
             // ParentSpan::Span,
             // String::from("test_span_kind"),
@@ -156,7 +156,7 @@ mod tests {
 
     #[test]
     fn add_event() {
-        let mut span = Span::create(
+        let mut span = Span::default(
             // String::from("test_span"),
             // ParentSpan::Span,
             // String::from("test_span_kind"),
@@ -170,7 +170,7 @@ mod tests {
 
     #[test]
     fn set_status() {
-        let mut span = Span::create(
+        let mut span = Span::default(
             // String::from("test_span"),
             // ParentSpan::Span,
             // String::from("test_span_kind"),
@@ -188,7 +188,7 @@ mod tests {
 
     #[test]
     fn update_name() {
-        let mut span = Span::create(
+        let mut span = Span::default(
             // String::from("test_span"),
             // ParentSpan::Span,
             // String::from("test_span_kind"),
@@ -203,7 +203,7 @@ mod tests {
 
     #[test]
     fn end() {
-        let mut span = Span::create(
+        let mut span = Span::default(
             // String::from("test_span"),
             // ParentSpan::Span,
             // String::from("test_span_kind"),

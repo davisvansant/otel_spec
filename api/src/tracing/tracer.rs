@@ -36,7 +36,7 @@ impl Tracer {
         //     // stop_timestamp,
         //     // status,
         // );
-        let span = Span::create();
+        let span = Span::default();
         self.trace.push(span)
     }
 }
