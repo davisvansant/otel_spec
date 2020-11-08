@@ -11,20 +11,24 @@ impl TraceState {
         }
     }
 
-    pub fn get() {
-        unimplemented!()
+    pub fn get(&self, key: String) -> Option<&String> {
+        // unimplemented!()
+        self.trace_state.get(&key)
     }
 
-    pub fn add() {
-        unimplemented!()
+    pub fn add(&mut self, key: String, value: String) -> Option<String> {
+        // unimplemented!()
+        self.trace_state.insert(key, value)
     }
 
-    pub fn update() {
-        unimplemented!()
+    pub fn update(&mut self, key: String, value: String) -> Option<String> {
+        // unimplemented!()
+        self.trace_state.insert(key, value)
     }
 
-    pub fn delete() {
-        unimplemented!()
+    pub fn delete(&mut self, key: &str) -> Option<(String, String)> {
+        // unimplemented!()
+        self.trace_state.remove_entry(key)
     }
 }
 
