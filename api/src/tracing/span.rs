@@ -56,7 +56,7 @@ impl Span {
             start_timestamp: SystemTime::now(),
             stop_timestamp: None,
             // attributes: Vec::with_capacity(10),
-            attributes: HashMap::with_capacity(5),
+            attributes: HashMap::with_capacity(10),
             link: Vec::with_capacity(10),
             events: Vec::with_capacity(10),
             status: Status::default(),
@@ -72,7 +72,6 @@ impl Span {
     }
 
     pub fn set_attribute(&mut self, key: String, value: String) -> Option<String> {
-        // unimplemented!()
         self.attributes.insert(key, value)
     }
 
@@ -153,10 +152,20 @@ mod tests {
         assert_eq!(span.is_recording(), false);
     }
 
-    // #[test]
-    // fn set_attributes() {
-    //     unimplemented!()
-    // }
+    #[test]
+    fn set_attribute() {
+        let mut span = Span::default(
+            // String::from("test_span"),
+            // ParentSpan::Span,
+            // String::from("test_span_kind"),
+            // None,
+        );
+        assert_eq!(span.attributes.len(), 0);
+        let test_key = String::from("test_key");
+        let test_value = String::from("test_value");
+        span.set_attribute(test_key, test_value);
+        assert_eq!(span.attributes.len(), 1);
+    }
 
     #[test]
     fn add_event() {
