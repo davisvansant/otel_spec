@@ -3,6 +3,7 @@ use self::span_context::SpanContext;
 use self::span_kind::SpanKind;
 use self::status::{Status, StatusCode};
 // use std::time::{Duration, SystemTime};
+use crate::HashMap;
 use crate::SystemTime;
 
 // pub(crate) mod events;
@@ -28,7 +29,8 @@ pub struct Span {
     pub span_kind: SpanKind,
     pub start_timestamp: SystemTime,
     pub stop_timestamp: Option<SystemTime>,
-    pub attributes: Vec<String>,
+    // pub attributes: Vec<String>,
+    pub attributes: HashMap<String, String>,
     pub link: Vec<String>,
     pub events: Vec<Event>,
     pub status: Status,
@@ -53,7 +55,8 @@ impl Span {
             span_kind: SpanKind::Internal,
             start_timestamp: SystemTime::now(),
             stop_timestamp: None,
-            attributes: Vec::with_capacity(10),
+            // attributes: Vec::with_capacity(10),
+            attributes: HashMap::with_capacity(5),
             link: Vec::with_capacity(10),
             events: Vec::with_capacity(10),
             status: Status::default(),
