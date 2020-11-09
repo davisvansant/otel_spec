@@ -71,8 +71,9 @@ impl Span {
         self.stop_timestamp.is_none()
     }
 
-    pub fn set_attributes(&mut self) {
-        unimplemented!()
+    pub fn set_attribute(&mut self, key: String, value: String) -> Option<String> {
+        // unimplemented!()
+        self.attributes.insert(key, value)
     }
 
     pub fn add_event(&mut self, name: String) {
