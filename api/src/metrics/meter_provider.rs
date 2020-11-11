@@ -1,35 +1,28 @@
-// unimplemented!()
+use crate::metrics::meter::Meter;
+
 pub struct MeterProvider {
     pub name: &'static str,
     pub version: &'static str,
-    pub meter: Vec<String>,
+    pub meter: Vec<Meter>,
 }
 
-// pub struct TracerProvider {
-//     pub name: &'static str,
-//     pub version: &'static str,
-//     pub tracer: Tracer,
-// }
-//
-// impl TracerProvider {
-//     pub fn default() -> TracerProvider {
-//         TracerProvider {
-//             name: env!("CARGO_PKG_NAME"),
-//             version: env!("CARGO_PKG_VERSION"),
-//             tracer: Tracer::init(),
-//         }
-//     }
-//
-//     pub fn get_tracer(&mut self) -> &mut Tracer {
-//         &mut self.tracer
-//     }
-// }
 impl MeterProvider {
     pub fn default() -> MeterProvider {
         MeterProvider {
             name: env!("CARGO_PKG_NAME"),
             version: env!("CARGO_PKG_VERSION"),
-            meter: Vec::new(),
+            meter: Vec::with_capacity(1),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn default() {
+        let global_meter = MeterProvider::default();
+        assert_eq!(global_meter.meter.len(), 0);
     }
 }
