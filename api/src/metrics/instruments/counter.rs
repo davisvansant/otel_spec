@@ -25,7 +25,7 @@ mod tests {
     }
 
     #[test]
-    fn new() {
+    fn add() {
         let mut counter = Counter::default();
         assert!(counter.measurement.is_empty());
         assert_eq!(counter.measurement.iter().sum::<f64>().to_bits(), 0);
