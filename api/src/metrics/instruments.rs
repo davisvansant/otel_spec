@@ -1,4 +1,5 @@
 pub mod counter;
+pub mod up_down_counter;
 
 #[derive(Debug, PartialEq)]
 pub enum Instrument {
@@ -8,4 +9,10 @@ pub enum Instrument {
     SumObserver,
     UpDownSumObserver,
     ValueObserver,
+}
+
+#[derive(PartialEq)]
+pub enum Increment {
+    Up,
+    Down,
 }
