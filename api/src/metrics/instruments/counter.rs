@@ -1,5 +1,5 @@
 pub struct Counter {
-    pub measurement: Vec<f64>,
+    pub measurement: Vec<u64>,
 }
 
 impl Counter {
@@ -9,8 +9,8 @@ impl Counter {
         }
     }
 
-    pub fn add(&mut self, increment: f64) {
-        self.measurement.push(increment)
+    pub fn add(&mut self) {
+        self.measurement.push(1)
     }
 }
 
@@ -28,16 +28,12 @@ mod tests {
     fn add() {
         let mut counter = Counter::default();
         assert!(counter.measurement.is_empty());
-        assert_eq!(counter.measurement.iter().sum::<f64>().to_bits(), 0);
+        assert_eq!(counter.measurement.iter().sum::<u64>(), 0);
 
-        for f in 0..50 {
-            counter.add(f as f64)
+        for _i in 0..50 {
+            counter.add()
         }
         assert_eq!(counter.measurement.len(), 50);
-        assert!(counter.measurement.iter().sum::<f64>().is_normal());
-        assert_eq!(
-            counter.measurement.iter().sum::<f64>().to_bits(),
-            4653102422422454272
-        );
+        assert_eq!(counter.measurement.iter().sum::<u64>(), 50)
     }
 }
