@@ -9,3 +9,6 @@ edition = "2018"
 [dependencies]
 
 uuid = { version = "0.8", features = [ "v4" ] }
+
+[dev-dependencies]
+tokio = { version = "0.3.3", features = [ "full" ] } 
