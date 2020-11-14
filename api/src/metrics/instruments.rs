@@ -1,4 +1,5 @@
 pub mod counter;
+pub mod sum_observer;
 pub mod up_down_counter;
 pub mod value_recorder;
 
