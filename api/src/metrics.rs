@@ -1,4 +1,6 @@
+mod event;
 pub mod instruments;
 pub mod meter;
 pub mod meter_provider;
-// unimplemented!()
+
+pub use event::Event;
