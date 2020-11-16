@@ -1,5 +1,5 @@
 use self::trace_state::TraceState;
-use uuid::Uuid;
+pub use uuid::Uuid;
 
 mod trace_state;
 

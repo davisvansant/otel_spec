@@ -12,7 +12,7 @@ use crate::SystemTime;
 // pub mod status;
 
 mod events;
-mod span_context;
+pub mod span_context;
 mod span_kind;
 mod status;
 
