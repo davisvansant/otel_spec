@@ -58,6 +58,8 @@ mod tests {
         for span in global.tracer.trace.iter() {
             assert_eq!(span.status.status_code, StatusCode::Unset);
             assert_eq!(span.status.description, None);
+            assert_eq!(span.is_recording(), true);
+            assert_eq!(span.stop_timestamp.is_none(), true);
         }
         global.shutdown();
         for span in global.tracer.trace.iter() {
@@ -66,6 +68,8 @@ mod tests {
                 span.status.description,
                 Some(String::from("Shutdown Initiated"))
             );
+            assert_eq!(span.is_recording(), false);
+            assert_eq!(span.stop_timestamp.is_some(), true);
         }
     }
 }
