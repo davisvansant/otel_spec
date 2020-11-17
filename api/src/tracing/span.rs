@@ -1,7 +1,7 @@
 use self::events::Event;
 use self::span_context::SpanContext;
 use self::span_kind::SpanKind;
-use self::status::{Status, StatusCode};
+pub use self::status::{Status, StatusCode};
 // use std::time::{Duration, SystemTime};
 use crate::HashMap;
 use crate::SystemTime;
