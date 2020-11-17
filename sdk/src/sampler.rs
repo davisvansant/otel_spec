@@ -35,7 +35,7 @@ mod tests {
     #[test]
     fn should_sample() {
         let mut global = TracerProvider::default();
-        let mut tracer = global.tracer.create_tracer();
+        global.tracer.create_tracer();
 
         if let Some(span) = global.get_tracer().trace.get_mut(0) {
             let test_span_context = &span.span_context;
