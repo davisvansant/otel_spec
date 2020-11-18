@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 pub mod sampler;
+pub mod span_processor;
 pub mod tracer_provider;
 
 // #[cfg(test)]
