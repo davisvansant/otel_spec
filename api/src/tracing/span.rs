@@ -16,12 +16,13 @@ pub mod span_context;
 mod span_kind;
 mod status;
 
-#[derive(Debug, PartialEq, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub enum ParentSpan {
     Span,
     SpanContext,
 }
 
+#[derive(Clone)]
 pub struct Span {
     pub name: String,
     pub span_context: SpanContext,

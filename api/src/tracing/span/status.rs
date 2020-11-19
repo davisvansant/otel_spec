@@ -1,10 +1,11 @@
-#[derive(Debug, PartialEq, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub enum StatusCode {
     Unset,
     Ok,
     Error,
 }
 
+#[derive(Clone)]
 pub struct Status {
     pub status_code: StatusCode,
     pub description: Option<String>,

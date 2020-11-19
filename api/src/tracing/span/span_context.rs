@@ -3,6 +3,7 @@ pub use uuid::Uuid;
 
 mod trace_state;
 
+#[derive(Clone)]
 pub struct SpanContext {
     pub trace_id: Uuid,
     pub span_id: Uuid,
