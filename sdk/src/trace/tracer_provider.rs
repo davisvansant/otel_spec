@@ -2,7 +2,7 @@
 use api::tracing::span::StatusCode;
 use api::tracing::tracer_provider::TracerProvider;
 
-trait TracerCreation {
+pub trait TracerCreation {
     fn create_tracer(&mut self, name: &'static str, version: &'static str);
 }
 
