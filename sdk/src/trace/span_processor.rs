@@ -1,16 +1,16 @@
 // use api::tracing::tracer::Tracer;
 // use api::tracing::span::StatusCode;
 use api::tracing::span::Span;
-use api::tracing::tracer_provider::TracerProvider;
+// use api::tracing::tracer_provider::TracerProvider;
 
 pub struct SpanProcessor {
-    processor: Vec<Span>,
+    pub collection: Vec<Span>,
 }
 
 impl SpanProcessor {
     pub fn init() -> SpanProcessor {
         SpanProcessor {
-            processor: Vec::with_capacity(10),
+            collection: Vec::with_capacity(10),
         }
     }
 }
@@ -62,9 +62,9 @@ impl SpanProcessor {
 mod tests {
     use super::*;
 
-    // #[test]
-    // fn () {
-    //
-    // }
-    //
+    #[test]
+    fn init() {
+        let processor = SpanProcessor::init();
+        assert_eq!(processor.collection.len(), 0);
+    }
 }
