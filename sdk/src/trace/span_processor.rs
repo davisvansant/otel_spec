@@ -1,8 +1,40 @@
 // use api::tracing::tracer::Tracer;
 // use api::tracing::span::StatusCode;
-// use api::tracing::span::Span;
+use crate::HashMap;
+use api::tracing::span::span_context::SpanContext;
+use api::tracing::span::Span;
 // use api::tracing::tracer_provider::TracerProvider;
 use crate::trace::span_exporter::Exporter;
+
+pub struct SpanProcessor {
+    pub collection: Vec<HashMap<String, String>>,
+    pub collecting: bool,
+}
+
+impl SpanProcessor {
+    pub fn init(capacity: u16) -> SpanProcessor {
+        SpanProcessor {
+            collection: Vec::with_capacity(capacity.into()),
+            collecting: true,
+        }
+    }
+
+    pub fn on_start(&mut self, span: String, parent_context: String) {
+        if self.collecting {
+            let mut span_object: HashMap<String, String> = HashMap::new();
+            span_object.insert(span, parent_context);
+            self.collection.push(span_object);
+        } else {
+            println!("Span Processor is Shutdown");
+        }
+    }
+
+    pub fn shutdown(&mut self) {
+        self.collecting = false;
+        println!("Shutdown Initiated");
+        println!("Processor Collecting Status - {:?}", self.collecting);
+    }
+}
 
 pub struct SimpleProcessor {
     pub exporter: Exporter,
@@ -33,6 +65,21 @@ impl BatchingProcessor {
         }
     }
 }
+
+// pub trait Processor {
+//     fn on_start(&mut self);
+//     fn on_end(&mut self);
+// }
+//
+// impl Processor for Span {
+//     fn on_start(&mut self) {
+//         unimplemented!();
+//     }
+//
+//     fn on_end(&mut self) {
+//         unimplemented!();
+//     }
+// }
 
 // pub struct SpanProcessor {
 //     pub collection: Vec<Span>,
@@ -92,6 +139,66 @@ impl BatchingProcessor {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn init() {
+        // let exporter = String::from("test_simple_exporter");
+        let capacity: u16 = 2048;
+        let processor = SpanProcessor::init(capacity);
+        // let simple = SimpleProcessor::init(exporter);
+        // assert_eq!(simple.exporter, String::from("test_simple_exporter"));
+        // assert_eq!(simple.exporter, Exporter::StandardOutput);
+        assert_eq!(processor.collection.len(), 0);
+        assert_eq!(processor.collecting, true);
+    }
+
+    #[test]
+    fn on_start() {
+        // let exporter = String::from("test_simple_exporter");
+        let capacity: u16 = 2048;
+        let mut processor = SpanProcessor::init(capacity);
+        // let simple = SimpleProcessor::init(exporter);
+        // assert_eq!(simple.exporter, String::from("test_simple_exporter"));
+        // assert_eq!(simple.exporter, Exporter::StandardOutput);
+        assert_eq!(processor.collection.len(), 0);
+        assert_eq!(processor.collecting, true);
+        let test_span = String::from("test_span");
+        let test_parent_context = String::from("test_parent_context");
+        processor.on_start(test_span, test_parent_context);
+        assert_eq!(processor.collection.len(), 1);
+    }
+
+    #[test]
+    fn on_start_shutdown() {
+        // let exporter = String::from("test_simple_exporter");
+        let capacity: u16 = 2048;
+        let mut processor = SpanProcessor::init(capacity);
+        // let simple = SimpleProcessor::init(exporter);
+        // assert_eq!(simple.exporter, String::from("test_simple_exporter"));
+        // assert_eq!(simple.exporter, Exporter::StandardOutput);
+        assert_eq!(processor.collection.len(), 0);
+        assert_eq!(processor.collecting, true);
+        processor.shutdown();
+        assert_eq!(processor.collecting, false);
+        let test_span = String::from("test_span");
+        let test_parent_context = String::from("test_parent_context");
+        processor.on_start(test_span, test_parent_context);
+        assert_eq!(processor.collection.len(), 0);
+    }
+
+    #[test]
+    fn shutdown() {
+        // let exporter = String::from("test_simple_exporter");
+        let capacity: u16 = 2048;
+        let mut processor = SpanProcessor::init(capacity);
+        // let simple = SimpleProcessor::init(exporter);
+        // assert_eq!(simple.exporter, String::from("test_simple_exporter"));
+        // assert_eq!(simple.exporter, Exporter::StandardOutput);
+        // assert_eq!(processor.collection.len(), 0);
+        assert_eq!(processor.collecting, true);
+        processor.shutdown();
+        assert_eq!(processor.collecting, false);
+    }
 
     #[test]
     fn init_simple() {
