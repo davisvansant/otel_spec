@@ -2,19 +2,20 @@
 // use api::tracing::span::StatusCode;
 // use api::tracing::span::Span;
 // use api::tracing::tracer_provider::TracerProvider;
+use crate::trace::span_exporter::Exporter;
 
 pub struct SimpleProcessor {
-    pub exporter: String,
+    pub exporter: Exporter,
 }
 
 impl SimpleProcessor {
-    pub fn init(exporter: String) -> SimpleProcessor {
+    pub fn init(exporter: Exporter) -> SimpleProcessor {
         SimpleProcessor { exporter }
     }
 }
 
 pub struct BatchingProcessor {
-    pub exporter: String,
+    pub exporter: Exporter,
     pub max_queue_size: u16,
     pub scheduled_delay_millis: u16,
     pub export_timeout_millis: u16,
@@ -22,7 +23,7 @@ pub struct BatchingProcessor {
 }
 
 impl BatchingProcessor {
-    pub fn init(exporter: String) -> BatchingProcessor {
+    pub fn init(exporter: Exporter) -> BatchingProcessor {
         BatchingProcessor {
             exporter,
             max_queue_size: 2048,
@@ -94,16 +95,20 @@ mod tests {
 
     #[test]
     fn init_simple() {
-        let exporter = String::from("test_simple_exporter");
+        // let exporter = String::from("test_simple_exporter");
+        let exporter = Exporter::StandardOutput;
         let simple = SimpleProcessor::init(exporter);
-        assert_eq!(simple.exporter, String::from("test_simple_exporter"));
+        // assert_eq!(simple.exporter, String::from("test_simple_exporter"));
+        assert_eq!(simple.exporter, Exporter::StandardOutput);
     }
 
     #[test]
     fn init_batching() {
-        let exporter = String::from("test_batching_exporter");
+        // let exporter = String::from("test_batching_exporter");
+        let exporter = Exporter::StandardOutput;
         let batching = BatchingProcessor::init(exporter);
-        assert_eq!(batching.exporter, String::from("test_batching_exporter"));
+        // assert_eq!(batching.exporter, String::from("test_batching_exporter"));
+        assert_eq!(batching.exporter, Exporter::StandardOutput);
         assert_eq!(batching.max_queue_size, 2048);
         assert_eq!(batching.scheduled_delay_millis, 5000);
         assert_eq!(batching.export_timeout_millis, 30000);

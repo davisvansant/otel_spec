@@ -1,6 +1,16 @@
 use api::tracing::span::Span;
 use api::tracing::tracer_provider::TracerProvider;
 
+#[derive(Debug, PartialEq)]
+pub enum Exporter {
+    Jaeger,
+    Zipkin,
+    Prometheus,
+    OpenTelemetryProtocol,
+    StandardOutput,
+    InMemory,
+}
+
 pub enum ExportResult {
     Success,
     Failure,
