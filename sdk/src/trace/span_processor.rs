@@ -1,19 +1,49 @@
 // use api::tracing::tracer::Tracer;
 // use api::tracing::span::StatusCode;
-use api::tracing::span::Span;
+// use api::tracing::span::Span;
 // use api::tracing::tracer_provider::TracerProvider;
 
-pub struct SpanProcessor {
-    pub collection: Vec<Span>,
+pub struct SimpleProcessor {
+    pub exporter: String,
 }
 
-impl SpanProcessor {
-    pub fn init() -> SpanProcessor {
-        SpanProcessor {
-            collection: Vec::with_capacity(10),
+impl SimpleProcessor {
+    pub fn init(exporter: String) -> SimpleProcessor {
+        SimpleProcessor { exporter }
+    }
+}
+
+pub struct BatchingProcessor {
+    pub exporter: String,
+    pub max_queue_size: u16,
+    pub scheduled_delay_millis: u16,
+    pub export_timeout_millis: u16,
+    pub max_export_batch_size: u16,
+}
+
+impl BatchingProcessor {
+    pub fn init(exporter: String) -> BatchingProcessor {
+        BatchingProcessor {
+            exporter,
+            max_queue_size: 2048,
+            scheduled_delay_millis: 5000,
+            export_timeout_millis: 30000,
+            max_export_batch_size: 512,
         }
     }
 }
+
+// pub struct SpanProcessor {
+//     pub collection: Vec<Span>,
+// }
+//
+// impl SpanProcessor {
+//     pub fn init() -> SpanProcessor {
+//         SpanProcessor {
+//             collection: Vec::with_capacity(10),
+//         }
+//     }
+// }
 // trait SpanProcessor {
 //     fn on_start();
 //     fn on_end();
@@ -63,8 +93,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn init() {
-        let processor = SpanProcessor::init();
-        assert_eq!(processor.collection.len(), 0);
+    fn init_simple() {
+        let exporter = String::from("test_simple_exporter");
+        let simple = SimpleProcessor::init(exporter);
+        assert_eq!(simple.exporter, String::from("test_simple_exporter"));
+    }
+
+    #[test]
+    fn init_batching() {
+        let exporter = String::from("test_batching_exporter");
+        let batching = BatchingProcessor::init(exporter);
+        assert_eq!(batching.exporter, String::from("test_batching_exporter"));
+        assert_eq!(batching.max_queue_size, 2048);
+        assert_eq!(batching.scheduled_delay_millis, 5000);
+        assert_eq!(batching.export_timeout_millis, 30000);
+        assert_eq!(batching.max_export_batch_size, 512);
     }
 }
