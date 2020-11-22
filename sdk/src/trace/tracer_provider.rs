@@ -14,7 +14,7 @@ impl TracerCreation for TracerProvider {
     }
 }
 
-trait TracerShutdown {
+pub trait TracerShutdown {
     fn shutdown(&mut self);
 }
 
