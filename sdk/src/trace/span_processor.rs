@@ -1,29 +1,31 @@
 // use api::tracing::tracer::Tracer;
 // use api::tracing::span::StatusCode;
-use crate::HashMap;
+// use crate::HashMap;
 use api::tracing::span::span_context::SpanContext;
 use api::tracing::span::Span;
 // use api::tracing::tracer_provider::TracerProvider;
 use crate::trace::span_exporter::Exporter;
 
-pub struct SpanProcessor {
-    pub collection: Vec<HashMap<String, String>>,
+pub struct SpanProcessor<'a> {
+    // pub collection: Vec<HashMap<String, String>>,
+    pub collection: Vec<(&'a Span, &'a SpanContext)>,
     pub collecting: bool,
 }
 
-impl SpanProcessor {
-    pub fn init(capacity: u16) -> SpanProcessor {
+impl<'a> SpanProcessor<'a> {
+    pub fn init(capacity: u16) -> SpanProcessor<'static> {
         SpanProcessor {
             collection: Vec::with_capacity(capacity.into()),
             collecting: true,
         }
     }
 
-    pub fn on_start(&mut self, span: String, parent_context: String) {
+    pub fn on_start(&mut self, span: &'a Span, parent_context: &'a SpanContext) {
         if self.collecting {
-            let mut span_object: HashMap<String, String> = HashMap::new();
-            span_object.insert(span, parent_context);
-            self.collection.push(span_object);
+            // let mut span_object: HashMap<String, String> = HashMap::new();
+            // span_object.insert((span, parent_context));
+            // self.collection.push(span_object);
+            self.collection.push((span, parent_context));
         } else {
             println!("Span Processor is Shutdown");
         }
@@ -139,6 +141,8 @@ impl BatchingProcessor {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::trace::tracer_provider::TracerCreation;
+    use api::tracing::tracer_provider::TracerProvider;
 
     #[test]
     fn init() {
@@ -154,35 +158,39 @@ mod tests {
 
     #[test]
     fn on_start() {
-        // let exporter = String::from("test_simple_exporter");
+        let mut global = TracerProvider::default();
+        let test_name = env!("CARGO_PKG_NAME");
+        let test_version = env!("CARGO_PKG_VERSION");
+        global.create_tracer(test_name, test_version);
         let capacity: u16 = 2048;
         let mut processor = SpanProcessor::init(capacity);
-        // let simple = SimpleProcessor::init(exporter);
-        // assert_eq!(simple.exporter, String::from("test_simple_exporter"));
-        // assert_eq!(simple.exporter, Exporter::StandardOutput);
         assert_eq!(processor.collection.len(), 0);
         assert_eq!(processor.collecting, true);
-        let test_span = String::from("test_span");
-        let test_parent_context = String::from("test_parent_context");
-        processor.on_start(test_span, test_parent_context);
+        for span in global.tracer.trace.iter() {
+            let test_span = &span;
+            let test_parent_context = &span.span_context;
+            processor.on_start(test_span, test_parent_context);
+        }
         assert_eq!(processor.collection.len(), 1);
     }
 
     #[test]
     fn on_start_shutdown() {
-        // let exporter = String::from("test_simple_exporter");
+        let mut global = TracerProvider::default();
+        let test_name = env!("CARGO_PKG_NAME");
+        let test_version = env!("CARGO_PKG_VERSION");
+        global.create_tracer(test_name, test_version);
         let capacity: u16 = 2048;
         let mut processor = SpanProcessor::init(capacity);
-        // let simple = SimpleProcessor::init(exporter);
-        // assert_eq!(simple.exporter, String::from("test_simple_exporter"));
-        // assert_eq!(simple.exporter, Exporter::StandardOutput);
         assert_eq!(processor.collection.len(), 0);
         assert_eq!(processor.collecting, true);
         processor.shutdown();
         assert_eq!(processor.collecting, false);
-        let test_span = String::from("test_span");
-        let test_parent_context = String::from("test_parent_context");
-        processor.on_start(test_span, test_parent_context);
+        for span in global.tracer.trace.iter() {
+            let test_span = &span;
+            let test_parent_context = &span.span_context;
+            processor.on_start(test_span, test_parent_context);
+        }
         assert_eq!(processor.collection.len(), 0);
     }
 
