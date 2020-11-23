@@ -1,6 +1,6 @@
 use crate::HashMap;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct TraceState {
     pub trace_state: HashMap<String, String>,
 }

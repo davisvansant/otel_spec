@@ -5,7 +5,7 @@ pub enum StatusCode {
     Error,
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Status {
     pub status_code: StatusCode,
     pub description: Option<String>,

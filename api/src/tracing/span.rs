@@ -22,7 +22,7 @@ pub enum ParentSpan {
     SpanContext,
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Span {
     pub name: String,
     pub span_context: SpanContext,

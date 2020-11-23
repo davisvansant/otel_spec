@@ -1,7 +1,7 @@
 use crate::HashMap;
 use crate::SystemTime;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Event {
     pub name: String,
     pub timestamp: SystemTime,
