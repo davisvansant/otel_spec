@@ -1,3 +1,5 @@
+use crate::trace::span_processor::BatchingProcessor;
+use crate::trace::span_processor::SpanProcessor;
 use api::tracing::span::Span;
 use api::tracing::tracer_provider::TracerProvider;
 
@@ -16,17 +18,17 @@ pub enum ExportResult {
     Failure,
 }
 
-pub trait SpanExporter {
-    // fn export(&self) -> Vec<Span>;
-    fn export(batch: TracerProvider) -> ExportResult;
-    fn shutdown();
-}
-
-// impl SpanExporter for TracerProvider {
+// pub trait SpanExporter {
+//     // fn export(&self) -> Vec<Span>;
+//     fn export(&mut self, batch: SpanProcessor) -> ExportResult;
+//     fn shutdown();
+// }
+//
+// impl SpanExporter for SpanProcessor {
 //     // fn export(&self) -> Vec<Span> {
 //     //     self.tracer.trace.to_vec()
 //     // }
-//     fn export(batch: TracerProvider) -> Vec<Span> {
+//     fn export(&mut self, batch: SpanProcessor) -> ExportResult {
 //         // self.tracer.trace.to_vec()
 //         batch.tracer.trace.to_vec()
 //     }
