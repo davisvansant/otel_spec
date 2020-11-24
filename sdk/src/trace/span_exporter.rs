@@ -18,6 +18,20 @@ pub enum ExportResult {
     Failure,
 }
 
+pub struct SpanExporter {
+    exporter: Exporter,
+    batch: Vec<Span>,
+}
+
+impl SpanExporter {
+    pub fn init(exporter: Exporter) -> SpanExporter {
+        SpanExporter {
+            exporter,
+            batch: Vec::with_capacity(10),
+        }
+    }
+}
+
 // pub trait SpanExporter {
 //     // fn export(&self) -> Vec<Span>;
 //     fn export(&mut self, batch: SpanProcessor) -> ExportResult;
@@ -38,22 +52,15 @@ pub enum ExportResult {
 //     }
 // }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use crate::trace::tracer_provider::TracerCreation;
-//
-//     #[test]
-//     fn export() {
-//         let mut global = TracerProvider::default();
-//         let test_trace_one_name = "test_trace_one";
-//         let test_trace_one_version = "1.0.0";
-//         global.create_tracer(test_trace_one_name, test_trace_one_version);
-//         let test_trace_two_name = "test_trace_two";
-//         let test_trace_two_version = "1.0.0";
-//         global.create_tracer(test_trace_two_name, test_trace_two_version);
-//         assert_eq!(global.tracer.trace.len(), 2);
-//         let mut export = global.export();
-//         assert_eq!(export.len(), 2);
-//     }
-// }
+#[cfg(test)]
+mod tests {
+    use super::*;
+    // use crate::trace::tracer_provider::TracerCreation;
+
+    #[test]
+    fn init() {
+        let exporter = Exporter::InMemory;
+        let test_span_exporter = SpanExporter::init(exporter);
+        assert_eq!(test_span_exporter.batch.len(), 0);
+    }
+}
