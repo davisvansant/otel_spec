@@ -1,7 +1,5 @@
-// use crate::trace::span_processor::BatchingProcessor;
 use crate::trace::span_processor::SpanProcessor;
 use api::tracing::span::Span;
-// use api::tracing::tracer_provider::TracerProvider;
 
 #[derive(Debug, PartialEq)]
 pub enum Exporter {
@@ -51,25 +49,10 @@ impl<'a> ExporterInterface<'a> for SpanExporter<'a> {
         self.batch.clear();
     }
 }
-// //
-// impl SpanExporter for SpanProcessor {
-//     // fn export(&self) -> Vec<Span> {
-//     //     self.tracer.trace.to_vec()
-//     // }
-//     fn export(&mut self, batch: SpanProcessor) -> ExportResult {
-//         // self.tracer.trace.to_vec()
-//         batch.tracer.trace.to_vec()
-//     }
-//
-//     fn shutdown() {
-//         unimplemented!()
-//     }
-// }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    // use crate::trace::tracer_provider::TracerCreation;
     use crate::trace::tracer_provider::TracerCreation;
     use api::tracing::tracer_provider::TracerProvider;
 
