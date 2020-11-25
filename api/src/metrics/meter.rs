@@ -1,4 +1,4 @@
-use crate::metrics::instruments::Instrument;
+pub use crate::metrics::instruments::Instrument;
 
 pub struct Meter {
     pub name: String,
