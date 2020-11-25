@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+pub mod metrics;
 pub mod trace;
 
 // pub mod sampler;
