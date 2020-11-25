@@ -18,8 +18,10 @@ impl MeterProvider {
     }
 
     pub fn new_meter(&mut self, name: String, metric_instrument: Instrument) {
-        let m = Meter::new(name, metric_instrument);
-        self.meter.push(m);
+        if !self.shutdown {
+            let m = Meter::new(name, metric_instrument);
+            self.meter.push(m);
+        }
     }
 }
 
@@ -40,7 +42,9 @@ mod tests {
     fn new_meter() {
         let mut global_meter = MeterProvider::default();
         assert_eq!(global_meter.meter.len(), 0);
-        global_meter.new_meter(String::from("test_meter"), Instrument::Counter);
+        global_meter.new_meter(String::from("test_meter_one"), Instrument::Counter);
         assert_eq!(global_meter.meter.len(), 1);
+        global_meter.new_meter(String::from("test_meter_two"), Instrument::Counter);
+        assert_eq!(global_meter.meter.len(), 2);
     }
 }
