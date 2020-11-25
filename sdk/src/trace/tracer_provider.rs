@@ -1,4 +1,3 @@
-// use api::tracing::tracer::Tracer;
 use api::tracing::span::StatusCode;
 use api::tracing::tracer_provider::TracerProvider;
 
