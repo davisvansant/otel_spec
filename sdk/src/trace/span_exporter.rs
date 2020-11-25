@@ -34,7 +34,7 @@ impl<'a> SpanExporter<'a> {
 
 pub trait ExporterInterface<'a> {
     fn export(&mut self, batch: &'a mut SpanProcessor) -> ExportResult;
-    fn shutdown();
+    fn shutdown(&mut self);
 }
 
 impl<'a> ExporterInterface<'a> for SpanExporter<'a> {
@@ -47,7 +47,9 @@ impl<'a> ExporterInterface<'a> for SpanExporter<'a> {
         ExportResult::Success
     }
 
-    fn shutdown() {}
+    fn shutdown(&mut self) {
+        self.batch.clear();
+    }
 }
 // //
 // impl SpanExporter for SpanProcessor {
@@ -96,5 +98,27 @@ mod tests {
         assert_eq!(test_span_exporter.batch.len(), 0);
         test_span_exporter.export(&mut processor);
         assert_eq!(test_span_exporter.batch.len(), 1);
+    }
+
+    #[test]
+    fn shutdown() {
+        let mut global = TracerProvider::default();
+        let test_name = env!("CARGO_PKG_NAME");
+        let test_version = env!("CARGO_PKG_VERSION");
+        global.create_tracer(test_name, test_version);
+        let capacity: u16 = 2048;
+        let mut processor = SpanProcessor::init(capacity);
+        for span in global.tracer.trace.iter() {
+            let test_span = &span;
+            let test_parent_context = &span.span_context;
+            processor.on_start(test_span, test_parent_context);
+        }
+        let exporter = Exporter::InMemory;
+        let mut test_span_exporter = SpanExporter::init(exporter);
+        assert_eq!(test_span_exporter.batch.len(), 0);
+        test_span_exporter.export(&mut processor);
+        assert_eq!(test_span_exporter.batch.len(), 1);
+        test_span_exporter.shutdown();
+        assert_eq!(test_span_exporter.batch.len(), 0);
     }
 }
