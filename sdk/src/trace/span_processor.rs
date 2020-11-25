@@ -14,7 +14,7 @@ pub struct SpanProcessor<'a> {
 }
 
 impl<'a> SpanProcessor<'a> {
-    pub fn init(capacity: u16) -> SpanProcessor<'static> {
+    pub fn init(capacity: u16) -> SpanProcessor<'a> {
         SpanProcessor {
             collection: Vec::with_capacity(capacity.into()),
             collecting: true,
