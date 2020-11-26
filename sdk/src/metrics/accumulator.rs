@@ -1,3 +1,30 @@
+pub struct Aggregator {
+    pub measurement: String,
+}
+
+pub struct AggregatorSnapshot {
+    pub aggregator: Vec<String>,
+}
+
+pub struct AggregatorSelector {
+    pub aggregator: Aggregator,
+}
+
+pub struct Accumluation {
+    pub instrument: String,
+    pub label_set: String,
+    pub resource: String,
+    pub aggregator_snapshot: AggregatorSnapshot,
+}
+
+pub struct Aggregation {
+    pub result: Aggregator,
+}
+
+pub enum AggregationKind {
+    SomeAggregationKind,
+}
+
 pub struct Accumulator {
     pub aggregator: Vec<String>,
     pub accumulation: (String, String),
