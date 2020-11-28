@@ -10,6 +10,14 @@ impl Aggregator {
             measurement: String::with_capacity(32),
         }
     }
+
+    pub fn update(&mut self) {
+        unimplemented!()
+    }
+
+    pub fn synchronized_move(&mut self) {
+        unimplemented!()
+    }
 }
 
 pub struct AggregatorSnapshot {
