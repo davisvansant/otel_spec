@@ -4,6 +4,14 @@ pub struct Aggregator {
     pub measurement: String,
 }
 
+impl Aggregator {
+    pub fn init() -> Aggregator {
+        Aggregator {
+            measurement: String::with_capacity(32),
+        }
+    }
+}
+
 pub struct AggregatorSnapshot {
     pub aggregator: Vec<String>,
 }
@@ -75,6 +83,12 @@ impl Accumulator {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn aggregator_init() {
+        let test_aggregator = Aggregator::init();
+        assert_eq!(test_aggregator.measurement, String::from(""));
+    }
 
     #[test]
     fn aggregator_snapshot_init() {
