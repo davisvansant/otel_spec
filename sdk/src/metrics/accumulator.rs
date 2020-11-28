@@ -36,6 +36,14 @@ pub struct AggregatorSelector {
     pub aggregator: Aggregator,
 }
 
+impl AggregatorSelector {
+    pub fn init() -> AggregatorSelector {
+        AggregatorSelector {
+            aggregator: Aggregator::init(),
+        }
+    }
+}
+
 pub struct Accumulation {
     pub instrument: String,
     pub label_set: String,
@@ -102,6 +110,15 @@ mod tests {
     fn aggregator_snapshot_init() {
         let test_aggregator_snapshot = AggregatorSnapshot::init();
         assert_eq!(test_aggregator_snapshot.aggregator.len(), 0);
+    }
+
+    #[test]
+    fn aggregator_selector_init() {
+        let test_aggregator_selector = AggregatorSelector::init();
+        assert_eq!(
+            test_aggregator_selector.aggregator.measurement,
+            String::from("")
+        );
     }
 
     #[test]
