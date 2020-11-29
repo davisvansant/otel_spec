@@ -8,6 +8,10 @@ impl Processor {
             some_collection: Vec::with_capacity(10),
         }
     }
+
+    pub fn process() {
+        unimplemented!()
+    }
 }
 
 #[cfg(test)]
