@@ -1,13 +1,15 @@
 use crate::metrics::processor::Processor;
 
 pub struct Aggregator {
-    pub measurement: String,
+    // pub measurement: String,
+    pub instance: Vec<String>,
 }
 
 impl Aggregator {
     pub fn init() -> Aggregator {
         Aggregator {
-            measurement: String::with_capacity(32),
+            // measurement: String::with_capacity(32),
+            instance: Vec::with_capacity(10),
         }
     }
 
@@ -103,7 +105,8 @@ mod tests {
     #[test]
     fn aggregator_init() {
         let test_aggregator = Aggregator::init();
-        assert_eq!(test_aggregator.measurement, String::from(""));
+        // assert_eq!(test_aggregator.measurement, String::from(""));
+        assert_eq!(test_aggregator.instance.len(), 0);
     }
 
     #[test]
@@ -115,10 +118,8 @@ mod tests {
     #[test]
     fn aggregator_selector_init() {
         let test_aggregator_selector = AggregatorSelector::init();
-        assert_eq!(
-            test_aggregator_selector.aggregator.measurement,
-            String::from("")
-        );
+        assert_eq!(test_aggregator_selector.aggregator.instance.len(), 0);
+        // test_aggregator_selector.aggregator.measurement,
     }
 
     #[test]
