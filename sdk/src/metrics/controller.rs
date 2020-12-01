@@ -25,7 +25,8 @@ mod tests {
     #[test]
     fn init() {
         let test_controller = Controller::init();
-        assert_eq!(test_controller.accumulator.aggregator.len(), 0);
+        // assert_eq!(test_controller.accumulator.aggregator.len(), 0);
+        assert_eq!(test_controller.accumulator.aggregator.instance.len(), 0);
         assert_eq!(test_controller.processor.some_collection.len(), 0);
         assert_eq!(test_controller.exporter.some_collection.len(), 0);
     }
