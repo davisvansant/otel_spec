@@ -1,5 +1,6 @@
 pub use self::accumulation::Accumulation;
 pub use self::aggregation::Aggregation;
+pub use self::aggregation::AggregationKind;
 pub use self::aggregator::Aggregator;
 pub use self::aggregator_selector::AggregatorSelector;
 pub use self::aggregator_snapshot::AggregatorSnapshot;
