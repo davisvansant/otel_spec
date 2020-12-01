@@ -1,14 +1,13 @@
 use crate::metrics::processor::Processor;
+use api::metrics::Event;
 
 pub struct Aggregator {
-    // pub measurement: String,
-    pub instance: Vec<String>,
+    pub instance: Vec<Event>,
 }
 
 impl Aggregator {
     pub fn init() -> Aggregator {
         Aggregator {
-            // measurement: String::with_capacity(32),
             instance: Vec::with_capacity(10),
         }
     }
@@ -17,13 +16,15 @@ impl Aggregator {
         unimplemented!()
     }
 
-    pub fn synchronized_move(&mut self) {
-        unimplemented!()
+    pub fn synchronized_move(&mut self) -> Vec<Event> {
+        let snapshot = self.instance.to_vec();
+        self.instance.clear();
+        snapshot
     }
 }
 
 pub struct AggregatorSnapshot {
-    pub aggregator: Vec<String>,
+    pub aggregator: Vec<Event>,
 }
 
 impl AggregatorSnapshot {
@@ -73,28 +74,24 @@ pub enum AggregationKind {
 }
 
 pub struct Accumulator {
-    pub aggregator: Vec<Accumulation>,
-    // pub accumulation: (String, String),
-    // accumulation: Accumulation,
+    pub aggregator: Aggregator,
+    pub snapshot: AggregatorSnapshot,
 }
 
 impl Accumulator {
     pub fn init() -> Accumulator {
         Accumulator {
-            aggregator: Vec::with_capacity(10),
-            // accumulation: (String::with_capacity(32), String::with_capacity(32)),
-            // accumulation: Accumulation {
-            //     instrument: String::with_capacity(32),
-            //     label_set: String::with_capacity(32),
-            //     resource: String::with_capacity(32),
-            //     aggregator_snapshot: AggregatorSnapshot::init(),
-            // },
+            aggregator: Aggregator::init(),
+            snapshot: AggregatorSnapshot::init(),
         }
     }
 
-    pub fn collect(&mut self, accumulation: Accumulation, _processor: Processor) {
-        self.aggregator.push(accumulation);
-        // _processor.process()
+    // pub fn collect(&mut self, _accumulation: Accumulation, _processor: Processor) {
+    pub fn collect(&mut self) {
+        // self.aggregator.push(accumulation);
+        // self.aggregator.instance.push(accumulation);
+        // _processor.process
+        self.snapshot.aggregator = self.aggregator.synchronized_move()
     }
 }
 
@@ -134,6 +131,25 @@ mod tests {
     #[test]
     fn accumlator_init() {
         let test_accumulator = Accumulator::init();
-        assert_eq!(test_accumulator.aggregator.len(), 0);
+        // assert_eq!(test_accumulator.aggregator.len(), 0);
+        // assert_eq!(test_accumulator.map.len(), 0);
+        assert_eq!(test_accumulator.aggregator.instance.len(), 0);
+    }
+
+    #[test]
+    fn accumlator_collect() {
+        let mut test_accumulator = Accumulator::init();
+        assert_eq!(test_accumulator.aggregator.instance.len(), 0);
+        let test_event_one = Event::default(
+            String::from("test_instrument_definition"),
+            1,
+            String::from("test_resources"),
+        );
+        test_accumulator.aggregator.instance.push(test_event_one);
+        assert_eq!(test_accumulator.aggregator.instance.len(), 1);
+        assert_eq!(test_accumulator.snapshot.aggregator.len(), 0);
+        test_accumulator.collect();
+        assert_eq!(test_accumulator.aggregator.instance.len(), 0);
+        assert_eq!(test_accumulator.snapshot.aggregator.len(), 1);
     }
 }
