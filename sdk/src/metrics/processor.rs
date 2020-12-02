@@ -1,11 +1,13 @@
+use crate::metrics::accumulator::Accumulation;
+
 pub struct Processor {
-    pub some_collection: Vec<String>,
+    pub accumulations: Vec<Accumulation>,
 }
 
 impl Processor {
     pub fn init() -> Processor {
         Processor {
-            some_collection: Vec::with_capacity(10),
+            accumulations: Vec::with_capacity(10),
         }
     }
 
@@ -21,6 +23,6 @@ mod tests {
     #[test]
     fn init() {
         let test_processor = Processor::init();
-        assert_eq!(test_processor.some_collection.len(), 0);
+        assert_eq!(test_processor.accumulations.len(), 0);
     }
 }
