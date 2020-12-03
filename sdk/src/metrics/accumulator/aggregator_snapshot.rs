@@ -1,7 +1,8 @@
-use api::metrics::Event;
+// use api::metrics::Event;
+use api::metrics::meter::Meter;
 
 pub struct AggregatorSnapshot {
-    pub aggregator: Vec<Event>,
+    pub aggregator: Vec<Meter>,
 }
 
 impl AggregatorSnapshot {

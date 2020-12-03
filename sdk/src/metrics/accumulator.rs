@@ -29,14 +29,23 @@ impl Accumulator {
         // self.aggregator.push(accumulation);
         // self.aggregator.instance.push(accumulation);
         // _processor.process
-        self.snapshot.aggregator = self.aggregator.synchronized_move()
+        // let record = (Event.label_set, )
+        self.snapshot.aggregator = self.aggregator.synchronized_move();
+        // let accumulation = Accumulation::init();
+        // for event in self.snapshot.aggregator.iter_mut() {
+        //     let mut accumulation = Accumulation::init();
+        //     event.instrument_definition = accumulation.instrument;
+        //     event.label_set = accumulation.label_set;
+        //     event.resources = accumulation.resource;
+        // }
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use api::metrics::Event;
+    // use api::metrics::Event;
+    use api::metrics::meter::{Instrument, Meter};
 
     #[test]
     fn init() {
@@ -48,12 +57,14 @@ mod tests {
     fn collect() {
         let mut test_accumulator = Accumulator::init();
         assert_eq!(test_accumulator.aggregator.instance.len(), 0);
-        let test_event_one = Event::default(
-            String::from("test_instrument_definition"),
-            1,
-            String::from("test_resources"),
-        );
-        test_accumulator.aggregator.instance.push(test_event_one);
+        // let test_event_one = Event::default(
+        //     String::from("test_instrument_definition"),
+        //     1,
+        //     String::from("test_resources"),
+        // );
+        // test_accumulator.aggregator.instance.push(test_event_one);
+        let test_meter = Meter::new(String::from("test_counter"), Instrument::Counter);
+        test_accumulator.aggregator.instance.push(test_meter);
         assert_eq!(test_accumulator.aggregator.instance.len(), 1);
         assert_eq!(test_accumulator.snapshot.aggregator.len(), 0);
         test_accumulator.collect();

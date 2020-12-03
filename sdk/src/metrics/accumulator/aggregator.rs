@@ -1,7 +1,8 @@
-use api::metrics::Event;
+// use api::metrics::Event;
+use api::metrics::meter::Meter;
 
 pub struct Aggregator {
-    pub instance: Vec<Event>,
+    pub instance: Vec<Meter>,
 }
 
 impl Aggregator {
@@ -15,7 +16,7 @@ impl Aggregator {
         unimplemented!()
     }
 
-    pub fn synchronized_move(&mut self) -> Vec<Event> {
+    pub fn synchronized_move(&mut self) -> Vec<Meter> {
         let snapshot = self.instance.to_vec();
         self.instance.clear();
         snapshot
