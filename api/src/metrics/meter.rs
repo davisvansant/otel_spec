@@ -1,5 +1,6 @@
 pub use crate::metrics::instruments::Instrument;
 
+#[derive(Clone)]
 pub struct Meter {
     pub name: String,
     pub metric_instrument: Instrument,

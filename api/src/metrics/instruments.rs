@@ -5,7 +5,7 @@ pub mod up_down_sum_observer;
 pub mod value_observer;
 pub mod value_recorder;
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Instrument {
     Counter,
     UpDownCounter,
