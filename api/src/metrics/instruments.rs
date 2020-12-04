@@ -15,7 +15,7 @@ pub enum Instrument {
     ValueObserver,
 }
 
-#[derive(PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum Increment {
     Up,
     Down,

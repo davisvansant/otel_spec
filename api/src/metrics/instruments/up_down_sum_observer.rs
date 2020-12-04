@@ -1,5 +1,6 @@
 use super::Increment;
 
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct UpDownSumObserver {
     pub measurement: Vec<i64>,
 }

@@ -1,3 +1,4 @@
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct SumObserver {
     pub measurement: Vec<u64>,
 }

@@ -1,3 +1,4 @@
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct Counter {
     pub measurement: Vec<u64>,
 }
