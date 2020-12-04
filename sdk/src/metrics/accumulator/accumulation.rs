@@ -1,4 +1,4 @@
-use super::AggregatorSnapshot;
+// use super::AggregatorSnapshot;
 use crate::HashMap;
 use api::metrics::Event;
 
