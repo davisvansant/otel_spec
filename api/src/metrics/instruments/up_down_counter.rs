@@ -14,9 +14,9 @@ impl UpDownCounter {
 
     pub fn add(&mut self, increment: Increment) {
         if increment == Increment::Up {
-            self.measurement.push(1 as i64)
+            self.measurement.push(1_i64)
         } else {
-            self.measurement.push(-1 as i64)
+            self.measurement.push(-1_i64)
         }
     }
 }
